@@ -1,0 +1,2 @@
+module QyHelper
+end
