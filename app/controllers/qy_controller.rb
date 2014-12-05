@@ -1,17 +1,19 @@
 require "prpcrypt.rb"
 require "qyapp.rb"
 require "pkcs7_encoder.rb"
-require 'multi_xml'
+# require 'multi_xml'
+
 class QyController < ApplicationController
     
     def index
+        p "===>index"
         @qy_app = QyApp.new
         if not valid_msg_signature(params)
           Rails.logger.debug("#{__FILE__}:#{__LINE__} Failure because signature is invalid")
           render :text=>"", :status=>401
           return
         end
-        if params[:echostr]
+        if params[:echostr] # check to enable callback mode
             content, status = Prpcrypt.decrypt(aes_key, params[:echostr], corp_id)
             render :text=>content
         else
@@ -79,12 +81,12 @@ private
           nonce             = params[:nonce]
           echo_str          = params[:echostr]
           msg_signature     = params[:msg_signature]
-          xml = params[:xml][:Encrypt]
+          xml = params[:xml][:Encrypt] if params[:xml]
           p params.inspect
           p "==>#{[qy_token, timestamp, nonce, echo_str].inspect}"
           if echo_str
               sort_params = [qy_token, timestamp, nonce, echo_str] 
-          else
+          elsif xml
               sort_params = [qy_token, timestamp, nonce, xml] 
           end
           sort_params       = sort_params.sort.join

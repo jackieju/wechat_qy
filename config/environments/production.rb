@@ -26,3 +26,10 @@ config.action_view.cache_template_loading            = true
 
 # Enable threaded mode
 # config.threadsafe!
+
+
+config.logger = Logger.new("#{Rails.root}/log/#{Rails.env}1.log", 20, 51200000*2)
+
+#必须加这一句，不然会以debug模式打印日志
+ config.logger.level = Logger::INFO 
+ config.logger.level = Logger::DEBUG
