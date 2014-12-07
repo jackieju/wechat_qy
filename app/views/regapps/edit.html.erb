@@ -1,0 +1,24 @@
+<h1>Editing regapp</h1>
+
+<% form_for(@regapp) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :cid %><br />
+    <%= f.text_field :cid %>
+  </p>
+  <p>
+    <%= f.label :token %><br />
+    <%= f.text_field :token %>
+  </p>
+  <p>
+    <%= f.label :key %><br />
+    <%= f.text_field :key %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @regapp %> |
+<%= link_to 'Back', regapps_path %>
