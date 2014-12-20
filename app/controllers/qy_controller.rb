@@ -7,7 +7,15 @@ class QyController < ApplicationController
     
     def index
         p "===>index"
-        @qy_app = QyApp.new
+        @cid = params[:cid]
+        if @cid && @cid != ""
+           res = Regapp.find_by_sql("select * from regapps where cid='#{@cid}'")
+           @qy_app = res[0] if res 
+        end
+        if @qy_app == nil
+             render :text=>"no such corporation"
+            return
+        end
         if not valid_msg_signature(params)
           Rails.logger.debug("#{__FILE__}:#{__LINE__} Failure because signature is invalid")
           render :text=>"", :status=>401
@@ -58,22 +66,22 @@ private
         end
 
         def encoding_aes_key
-          key = @qy_app.encoding_aes_key
+          key = @qy_app.key
           raise "长度固定为43个字符" if key.length != 43
           key
         end
 
         def qy_token
-          @qy_app.qy_token
+          @qy_app.token
 
         end
 
         def aes_key
-          Base64.decode64(@qy_app.encoding_aes_key + "=")
+          Base64.decode64(@qy_app.key + "=")
         end
 
         def corp_id
-          @qy_app.corp_id
+          @qy_app.cid
         end
 
         def valid_msg_signature(params)

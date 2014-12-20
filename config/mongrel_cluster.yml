@@ -3,5 +3,5 @@ log_file: log/mongrel.log
 port: "8820"
 environment: production
 pid_file: tmp/pids/mongrel_wh.pid
-servers: 1
+servers: 3
 
