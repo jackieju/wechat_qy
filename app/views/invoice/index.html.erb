@@ -1,0 +1,17 @@
+<% if @list %>
+<% @list.each{|item|
+	<div class="ui_tablelist_item js_item">
+		<div>
+		<%=item[:DocEntry] %>
+		<%=item[:DocTotal] %>
+		<%=item[:DocDate] %>
+		<%=item[:DocumentStatus] %>
+		</div>
+		<div>
+		<%=item[:CardName] %>
+		<%=item[:Comments] %>
+		<%=item[:JournalMemo] %>
+		</div>
+	</div>
+<% } %>
+<% end %>

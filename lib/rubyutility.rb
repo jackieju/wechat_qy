@@ -138,7 +138,11 @@ def get_dir(path)
         return path[0..path.size-2]
     end
     index = path.rindex("/")
-    return path[0..index-1]
+    if index == nil
+        return path
+    else
+        return path[0..index-1]
+    end
 end
 def save_to_file(data, fname)
     dir = get_dir(fname)
@@ -282,6 +286,7 @@ def http_request(url, method="get", hash=nil, _port=nil, headers=nil)
       p "-->port:#{port}, host:#{uri.host}, scheme:#{uri.scheme}, quest:#{uri.query}, path:#{uri.path}"
          # p "->#{uri.path}?#{uri.query}"
          http = Net::HTTP.new(uri.host, port)
+         http.read_timeout = 5000
          if bHttps
              http.use_ssl = true
              p "is Https, using ssl"
@@ -314,8 +319,10 @@ def http_request(url, method="get", hash=nil, _port=nil, headers=nil)
          p "headers:#{headers.inspect}"
 
          if method.downcase=="post" 
+             p "do post ..."
              resp, data = http.post(uri.path, post_data, headers)
          else
+             p "do get ..."
              if post_data && post_data != ""
                  resp, data =  http.get(uri.path+"?"+post_data, headers)
              else
@@ -343,3 +350,59 @@ def http_get(url, hash=nil, _port=nil, headers=nil)
     resp, data = http_request(url, "get", hash, _port, headers)
 	return [resp, data]
 end
+
+def loadObject(path, p=nil, moduled=nil, base_path = nil)
+       begin
+           # p "require '"+ path+".rb'"
+           if base_path 
+               if !base_path.end_with?("/")
+                   base_path = "#{base_path}/"
+               end
+               # eval "require '#{base_path}#{path}.rb'"      
+           else
+               # eval "require '"+ path+".rb'"      
+           end
+
+           b = path.split('/')
+           if moduled != nil || moduled == true
+               if moduled.class == String
+                   name = b[b.size-1]
+                   target_class = name.at(0).upcase+name.from(1)
+                   target_class = "#{moduled}::#{target_class}"
+               elsif moduled == true
+                   target_class = "Game"
+                   b.each{|r|
+                       next if r == ""
+                       # if target_class != ""
+                           target_class += "::"
+                       # end
+                       target_class += r.at(0).upcase+r.from(1)
+                   }
+               end
+           else
+               name = b[b.size-1]
+               target_class = name.at(0).upcase+name.from(1)
+           end
+           # p "target_class #{target_class}"
+           if p == nil
+               # targetObj=eval target_class+'.new()'
+               klass = target_class.split("::").inject(Object) {|x,y| x.const_get(y) }
+               targetObj = klass.new
+           else
+               # targetObj=eval target_class+".new(\"#{p}\")"
+               klass = target_class.split("::").inject(Object) {|x,y| x.const_get(y) }
+               targetObj = klass.new(p)
+           end
+       
+       #    targetObj.set(o) if o
+           return targetObj
+       rescue Exception=>e
+           p "load  object '#{path}' failed"
+        p "#{e.inspect}\n#{e.backtrace[0..9].join("\n")}"
+           # err("#{e.inspect}\n#{e.backtrace[0..9].join("\n")}")
+           err e
+       end
+       
+       return nil
+       
+   end

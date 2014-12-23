@@ -1,0 +1,139 @@
+
+<%if @item %>
+<div id="highlight" style="width:100%;height:300px;border-bottom:3pt dotted grey;">
+
+	<div style="float:left;font-size:48pt;">
+		<div><%=@item["CardName"]%></div>
+		<div class="line" style="color:grey;">
+			<div class="pname">DocNum</div>
+			<div class="pvalue"><%=@item["DocNum"]%></div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="line" style="color:grey;">
+			<div class="pname">DocDate:</div>
+			<div class="pvalue"><%=@item["DocDate"]%></div>
+			<div class="pname">&nbsp;/&nbsp;DocDueDate:</div>
+			<div class="pvalue"><%=@item["DocDueDate"]%></div>
+			<div style="clear:both"></div>
+		</div>
+
+	</div>
+	<div style="float:right;font-size:50pt;">
+		<div style="color:blue;"><%=@item["DocTotal"]%><%=@item["DocCurrency"]%></div>
+		<span style="color:grey;font-size:30pt;"><%=@item["DocumentStatus"]%></span>
+	</div>
+</div>
+
+<div id="invoice_content" style="width:100%;">
+	<div id="invoice_prop">
+
+
+
+		<div class="fline">
+			<div class="fname" >Address</div>
+			<div class="fvalue" style="float:none;"><%=@item["Address"]%>&nbsp;<%=@item["Address2"]%></div>
+			<div style="clear:both"></div>
+		</div>
+		
+
+
+		<div class="fline">
+			<div class="fname">JournalMemo</div>
+			<div class="fvalue"><%=@item["JournalMemo"]%></div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="fline">
+			<div class="fname">PaymentMethod</div>
+			<div class="fvalue"><%=@item["PaymentMethod"]%></div>
+			<div style="clear:both"></div>
+		</div>
+
+		<div class="fline">
+			<div class="fname">Comments</div>
+			<div class="fvalue"><%=@item["Comments"]%></div>
+			<div style="clear:both"></div>
+		</div>
+	</div><!-- invoice_prop -->
+
+<% if @item["DocumentLines"] %>
+	<div id="invoice_lines" style="width:100%;">
+		<div style="width:100%;border-bottom:3px solid #eeeeff;">
+			<div class="tab" style="text-align:center;height:100px;width:200px;font-size:38pt;line-height:100px;border-top:1px #eeeeff;border-left:1px #eeeeff;border-right:1px #eeeeff;background-color:#eeeeff;">
+				Details:
+			</div>
+		</div>
+<% @item["DocumentLines"].each{|dl| %>
+		<div class="invoice_line_summary" style="width:100%;border-bottom:3px dotted grey;height:120px;font-size:42pt;">
+			<div style="margin-left:10x;margin-top:10px;width:60%;float:left;color:black;line-height:normal;"><%=dl["ItemDescription"]%></div>
+			<div style="margin-left:10x;margin-top:10px;width:20%;float:left;color:black;"><span style="color:#ee9999;">x</span><span style="color:blue;"><%=dl["Quantity"]%></span></div>
+			<div style="margin-left:10x;margin-top:10px;width:20%;float:left;color:black;"><span style="color:blue;"><%=dl["Price"]%>$</span></div>
+		</div>
+		<div style="clear:both"></div>
+		<div class="invoice_line" style="display:none;border-bottom:3px dotted blue;">
+			<div class="fline">
+				<div class="fname">ItemDescription</div>
+				<div class="fvalue"><%=dl["ItemDescription"]%></div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="fline">
+				<div class="fname">Quantity</div>
+				<div class="fvalue"><%=dl["Quantity"]%></div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="fline">
+				<div class="fname">Price</div>
+				<div class="fvalue"><%=dl["Price"]%></div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="fline">
+				<div class="fname">PriceAfterVAT</div>
+				<div class="fvalue"><%=dl["PriceAfterVAT"]%></div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="fline">
+				<div class="fname">Volume</div>
+				<div class="fvalue"><%=dl["Volume"]%></div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="fline">
+				<div class="fname">NetTaxAmount</div>
+				<div class="fvalue"><%=dl["NetTaxAmount"]%></div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="fline">
+				<div class="fname">LineStatus</div>
+				<div class="fvalue"><%=dl["LineStatus"]%></div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="fline">
+				<div class="fname">GrossBuyPrice</div>
+				<div class="fvalue"><%=dl["GrossBuyPrice"]%></div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="fline">
+				<div class="fname">GrossProfitTotalBasePrice</div>
+				<div class="fvalue"><%=dl["GrossProfitTotalBasePrice"]%></div>
+				<div style="clear:both"></div>
+			</div>	
+			<div class="fline">
+				<div class="fname">OpenAmount</div>
+				<div class="fvalue"><%=dl["OpenAmount"]%></div>
+				<div style="clear:both"></div>
+			</div>
+			<div class="fline">
+				<div class="fname">ShipToDescription</div>
+				<div class="fvalue"><%=dl["ShipToDescription"]%></div>
+				<div style="clear:both"></div>
+			</div>	
+			<div class="fline">
+				<div class="fname">ActualDeliveryDate</div>
+				<div class="fvalue"><%=dl["ActualDeliveryDate"]%></div>
+				<div style="clear:both"></div>
+			</div>
+		</div>
+<% } %>
+	</div> <!-- invoice_lines -->
+<% end %>
+</div><!-- invoice_content -->
+
+<% end %>

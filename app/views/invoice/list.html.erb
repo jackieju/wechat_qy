@@ -1,0 +1,24 @@
+<% if @list %>
+<% @list.each{|item|%>
+	<div class="ui_tablelist_item js_item" style="height:160px;" onclick="show_detail('<%=item[:DocEntry] %>')">
+		<div style="float:left;width:85%;">
+			<div style="font-size:20pt;line-height:60px;">
+				<div style="float:left;font-size:36pt;font-weight:600;"><%=item[:JournalMemo] %></div>
+				<div style="float:left;display:none"><%=item[:DocEntry] %></div>
+				<div style="float:left;font-size:24pt;color:grey;margin-left:10px;"><%=item[:DocDate] %></div>
+			</div>
+			<div style="clear:both"></div>
+			<div style="">
+				<div style="line-height:normal;float:left;font-size:36pt;color:grey;white-space:nowrap;height:"><%=item[:CardName] %></div>
+				<div style="line-height:normal;width:100%;overflow:hidden;float:left;font-size:26pt;color:grey;white-space:nowrap;"><%=item[:Comments] %></div>
+			</div>
+		<div style="clear:both"></div>
+		</div>
+		<div style="float:right;width:15%;line-height:80px;">
+			<div style="font-size:36pt;color:blue;line-height:30px;border:0px solid red;"><%=item[:DocTotal] %>$</div>
+			<div style="font-size:24pt;color:black;line-height:18px;border:0px solid green;margin-top:10px;"><%=item[:DocumentStatus] %></div>
+		</div>
+		<div style="clear:both"></div>
+	</div>
+<% } %>
+<% end %>
