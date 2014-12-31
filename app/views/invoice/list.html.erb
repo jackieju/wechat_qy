@@ -1,24 +1,56 @@
+<style>
+.list_item_title {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-size:48pt;font-weight:100;
+}
+</style>
+
 <% if @list %>
 <% @list.each{|item|%>
-	<div class="ui_tablelist_item js_item" style="height:160px;" onclick="show_detail('<%=item[:DocEntry] %>')">
-		<div style="float:left;width:85%;">
-			<div style="font-size:20pt;line-height:60px;">
-				<div style="float:left;font-size:36pt;font-weight:600;"><%=item[:JournalMemo] %></div>
-				<div style="float:left;display:none"><%=item[:DocEntry] %></div>
-				<div style="float:left;font-size:24pt;color:grey;margin-left:10px;"><%=item[:DocDate] %></div>
+
+	<div class="ui_tablelist_item js_item" style="height:230px;overflow-y:hidden;" onclick="show_detail('<%=item[:DocEntry] %>')">
+		<!-- line1 -->
+		<div style="height:200px;border:0px solid red;margin-top:0px;overflow:hidden;">
+			<!-- col1 -->
+			<div style="float:left;width:600px;">
+				<!-- line1 in col1 -->
+				<div style="height:120px;font-size:20pt;line-height:55px;border:0px solid red;overflow:hidden;">
+					<!--div style="float:left;font-size:36pt;font-weight:600;"><%=item[:DocDate] %></div-->
+					<div class="list_item_title fittext" style="float:left;width:588px;border:0px solid red;"><%=item[:CardName] %></div>
+					<!--div style="float:left;display:none"><%=item[:DocEntry] %></div-->
+					<!--div style="float:left;font-size:30pt;color:grey;margin-left:10px;line-height:200%;"><%=item[:DocDate] %></div-->
+				</div>
+				<div style="clear:both"></div>			
+				<!-- line2 in col1 -->
+				<div style="border:0px solid green;height:50px;">
+					<!--div style="line-height:normal;float:left;font-size:36pt;color:grey;white-space:nowrap;height:"><%=item[:CardName] %></div-->
+					<% if item[:DocumentStatus] == "bost_close" %>
+					<div style="float:left;padding:10px 20px;height:36px;border-radius:10px;background:orange;color:white;font-weight:500;font-size:42pt;line-height:38px;text-align:center;">close</div>
+					<% else %>
+					<div style="float:left;padding:10px 20px;height:36px;border-radius:10px;background:orange;color:white;font-weight:500;font-size:42pt;line-height:22px;text-align:center;">open</div>
+					<% end %>
+					<div style="float:left;font-size:30pt;color:grey;margin-left:10px;line-height:65px;height:60px;"><%=item[:JournalMemo] %></div>
+				</div>
+			</div><!-- col1 -->
+			<div style="float:right;width:350px;line-height:80px;margin-top:50px;margin-right:0;border:0px solid orange;">
+				<div style="font-size:60pt;color:blue;line-height:46px;border:0px solid red;margin-right:0px;"><%=item[:DocTotal] %>$</div>
+				<!--div style="font-size:24pt;color:black;line-height:18px;border:0px solid green;margin-top:10px;"><%=item[:DocumentStatus] %></div-->
 			</div>
-			<div style="clear:both"></div>
-			<div style="">
-				<div style="line-height:normal;float:left;font-size:36pt;color:grey;white-space:nowrap;height:"><%=item[:CardName] %></div>
-				<div style="line-height:normal;width:100%;overflow:hidden;float:left;font-size:26pt;color:grey;white-space:nowrap;"><%=item[:Comments] %></div>
-			</div>
-		<div style="clear:both"></div>
+			<div style="clear:both"></div>			
+		
 		</div>
-		<div style="float:right;width:15%;line-height:80px;">
-			<div style="font-size:36pt;color:blue;line-height:30px;border:0px solid red;"><%=item[:DocTotal] %>$</div>
-			<div style="font-size:24pt;color:black;line-height:18px;border:0px solid green;margin-top:10px;"><%=item[:DocumentStatus] %></div>
+
+		
+		<!-- line2 -->
+		<div style="border:0px solid green;height:50px;">
+		<div style="line-height:normal;width:100%;overflow:hidden;float:left;font-size:30pt;color:grey;white-space:nowrap;"><%=item[:Comments] %></div>
 		</div>
 		<div style="clear:both"></div>
+		
 	</div>
 <% } %>
 <% end %>
+<script>
+//$(".fittext").fitText(0.8);
+//$(".fittext").adjustFont(1, {maxFontSize:80});
+</script>
